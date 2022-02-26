@@ -1,18 +1,79 @@
-﻿# ASP.NET ZERO
+﻿---------------------------------------------
+Musteri
+--------------
+Id (int)
+Ad (varchar)
+Soyad (varchar)
+Sehir (varchar)
 
-This repository is configured and used for AspNet Zero Team's development. 
-It is not suggested for our customers to use this repository directly. It is suggested to download a project from https://aspnetzero.com/Download.
+Sepet
+----------
+Id (int)
+MusteriId (int)
 
-____________
+SepetUrun
+--------------
+Id (int)
+SepetId (int)
+Tutar (numeric)
+Aciklama (varchar)
 
-## Most Recent Release
+Geliştirilecek 1. Servis
+----------------------------------------------------------------------
+TestVerisiOlustur(int musteriAdet, int sepetAdet)
+----------------------------------------------------------------------
+- İlk parametre kaç tane müşteri yaratılacağını belirtir.
 
-|  #   |     Status     |  Release Date  |                         Change Logs                          |                          Milestone                           |
-| :--: | :------------: | :--------: | :----------------------------------------------------------: | :----------------------------------------------------------: |
-| 10.5 | ✔️ &thinsp; **RELEASED** | 2021-09-27 | [Release Notes](https://docs.aspnetzero.com/en/common/latest/Change-Logs) | [Closed](https://github.com/aspnetzero/aspnet-zero-core/milestone/90?closed=1) |
+- Her bir müşterinin ad ve soyad alanları rastgele isimler olabilir.
 
-## Current Milestone
-|  #   |    Status     |  Due Date  |                          Milestone                           |
-| :--: | :-----------: | :--------: | :----------------------------------------------------------: |
-| 11.0  | 🚧 &thinsp; In Progress | 2021-12-01 | [Open](https://github.com/aspnetzero/aspnet-zero-core/milestone/91)<br>[Closed](https://github.com/aspnetzero/aspnet-zero-core/milestone/91?closed=1) |
+- Her müşterinin şehir alanı, önceden belirlenmiş 10 tane şehirden biri olmalıdır; Ankara, İstanbul, İzmir, Bursa, Edirne, Konya, Antalya, Diyarbakır, Van, Rize
 
+- İkinci parametre yaratılacak sepet adedini belirtir.
+
+- Her bir sepet rastgele bir müşteriye ait olmalıdır.
+
+- Her bir sepetin içinde 1-5 adet arasında ürün olmalıdır.
+
+- Her bir ürünün tutarı 100 TL - 1000 TL arasında rastgele seçilmelidir. Ürün açıklaması rastgele olabilir.
+
+Geliştirilecek 2. Servis
+----------------------------------------------------------------------
+SehirBazliAnalizYap()
+----------------------------------------------------------------------
+- Metod tüm müşteri ve sepet verisini kullanarak şehir bazlı analiz yapar.
+
+- Metod DtoSehirAnaliz listesi dönmelidir. Sıralama sepet adedine göre en yüksekten başlayacak şekilde olmalıdır. Her DtoSehirAnaliz nesnesinde şehrin adı, o şehirdeki toplam sepet adedi ve o sepetlerdeki ürünlerin toplam tutarı olmalıdır.
+
+Ankara - 50 - 5400 TL
+İstanbul - 45 - 4800 TL
+İzmir - 40 - 4000 TL
+....
+
+HTTP isteği sonucunda aşağıdaki gibi bir sınıfın listesinin JSON formatı dönülebilir.
+
+public class DtoSehirAnaliz
+{
+public string SehirAdi {get; set;}
+public int SepetAdet {get; set;}
+public int ToplamTutar {get; set;}
+}
+
+Örneğin
+
+[
+{
+"SehirAdi":"Ankara",
+"SepetAdet":50,
+"ToplamTutar":5400
+},
+{
+"SehirAdi":"İstanbul",
+"SepetAdet":45,
+"ToplamTutar":4800
+},
+{
+"SehirAdi":"İzmir",
+"SepetAdet":40,
+"ToplamTutar":4000
+}
+]
